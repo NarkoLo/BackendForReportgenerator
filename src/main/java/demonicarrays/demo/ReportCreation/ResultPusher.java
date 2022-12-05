@@ -8,11 +8,10 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class ResultPusher {
-    static void pushFile(String path, String fileName){
-        Path file = Paths.get(path);
-        String pathToDesktop = makeCorrectPath(path);
+    static void pushFile(Path path, String fileName){
+        String pathToDesktop = makeCorrectPath(path.toString());
         try {
-            Files.copy(file, Paths.get(pathToDesktop + "\\" + fileName),REPLACE_EXISTING);
+            Files.copy(path, Paths.get(pathToDesktop + "\\" + fileName),REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

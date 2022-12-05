@@ -9,14 +9,15 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileReplacerAndMerger {
     //change path
-    final  static File pathToTitleList = TempFileUtility.createTempFile("classpath:wordSource/TitleLists.docx");
-    final static File inputFile = TempFileUtility.createTempFile("classpath:wordSource/mainWordFile.docx");
-    final static File outputFile = TempFileUtility.createTempFile("classpath:wordSource/fileForTesting.docx");
+    private final  static Path pathToTitleList = TempFileUtility.createTempFile("wordSource/TitleLists.docx");
+    private final static Path inputFile = TempFileUtility.createTempFile("wordSource/mainWordFile.docx");
+    private final static Path outputFile = TempFileUtility.createTempFile("wordSource/fileForTesting.docx");
 
     public static void fileReplacerAndMerger(Report report) throws IOException {
 
@@ -73,14 +74,14 @@ public class FileReplacerAndMerger {
             DocumentBuilder documentBuilder = new DocumentBuilder(template, outputFile, inputFile);
             documentBuilder.buildDoc();
             documentBuilder.saveDoc();
-            Document document = new Document(new FileInputStream(pathToTitleList.getAbsolutePath()));
-            document.insertTextFromFile(outputFile.getAbsolutePath(), FileFormat.Docx_2013);
-            document.saveToFile(pathToTitleList.getAbsolutePath(), FileFormat.Docx_2013);
+            Document document = new Document(pathToTitleList.toString());
+            document.insertTextFromFile(outputFile.toString(), FileFormat.Docx_2013);
+            document.saveToFile(pathToTitleList.toString(), FileFormat.Docx_2013);
 
             DocumentBuilder.clearDoc(outputFile);
         }
-        DocumentBuilder.deleteWM(pathToTitleList.getAbsolutePath(),"Evaluation Warning: The document was created with Spire.Doc for JAVA.");
-        ResultPusher.pushFile(pathToTitleList.getAbsolutePath(), report.getGroupName() + ".docx");
+        DocumentBuilder.deleteWM(pathToTitleList,"Evaluation Warning: The document was created with Spire.Doc for JAVA.");
+        ResultPusher.pushFile(pathToTitleList, report.getGroupName() + ".docx");
         DocumentBuilder.clearDoc(pathToTitleList);
     }
 }

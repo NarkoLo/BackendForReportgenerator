@@ -1,18 +1,20 @@
 package demonicarrays.demo.ReportCreation;
 
+import lombok.SneakyThrows;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 public class DocumentBuilder {
     private final Template template;
-    private final File output;
-    private final File input;
+    private final Path output;
+    private final Path input;
 
 
     private XWPFDocument doc = null;
@@ -29,11 +31,12 @@ public class DocumentBuilder {
         }
     }
 
-    public DocumentBuilder(Template template, File output,File input) throws FileNotFoundException {
+    @SneakyThrows
+    public DocumentBuilder(Template template, Path output, Path input){
         this.template = template;
         this.output = output;
         this.input = input;
-        setXWPFDocument(new FileInputStream(this.input));
+        setXWPFDocument(Files.newInputStream(this.input));
 
 
     }
@@ -80,23 +83,23 @@ public class DocumentBuilder {
         tableSearch(doc);
     }
     public void saveDoc(){
-        try (FileOutputStream out = new FileOutputStream(output)) {
+        try (OutputStream out = Files.newOutputStream(output)) {
             doc.write(out);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void clearDoc(File outFile){
-        try (FileOutputStream out = new FileOutputStream(outFile)) {
+    public static void clearDoc(Path outFile){
+        try (OutputStream out = Files.newOutputStream(outFile)) {
             out.write(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    static void deleteWM(String path, String WM) {
-        try (XWPFDocument doc = new XWPFDocument(new ClassPathResource(path).getInputStream());
+    static void deleteWM(Path path, String WM) {
+        try (XWPFDocument doc = new XWPFDocument(Files.newInputStream(path)); OutputStream out = Files.newOutputStream(path))
                 //Files.newInputStream(Paths.get(path)));
-             FileOutputStream out = new FileOutputStream(path)) {
+             {
             for (XWPFParagraph paragraph : doc.getParagraphs()) {
                 List<XWPFRun> runs = paragraph.getRuns();
                 if (runs != null) {
