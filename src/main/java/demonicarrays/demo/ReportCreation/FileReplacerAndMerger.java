@@ -42,6 +42,14 @@ public class FileReplacerAndMerger {
             add("headOfDFN");
             add("directionName");
             add("profileName");
+
+            add("supervisorPosition");
+            add("supervisorTitle");
+            add("supervisorDegree");
+            add("headOfDTitle");
+            add("headOfDDegree");
+            add("supervisorCompanyFN");
+            add("supervisorCompanyPosition");
         }};
 
         DocumentBuilder.clearDoc(pathToTitleList);
@@ -65,6 +73,13 @@ public class FileReplacerAndMerger {
                     case "headOfDFN" -> template.setField("headOfDFN",report.getHeadOfDFN()); //objUpdateWord.updateDocument(inputPath, outputPath, "${headOfDFN}", headOfDFN.getText());
                     case "directionName" -> template.setField("directionName", report.getDirectionName());//objUpdateWord.updateDocument(inputPath, outputPath, "${directionName}", (String) directionName.getValue());
                     case "profileName" -> template.setField("profileName", report.getProfileName());//objUpdateWord.updateDocument(inputPath, outputPath, "${profileName}", profileName.getText());
+                    case "supervisorPosition" -> template.setField("supervisorPosition", report.getSupervisorPosition());
+                    case "supervisorTitle" -> template.setField("supervisorTitle", report.getSupervisorTitle());
+                    case "supervisorDegree" -> template.setField("supervisorDegree", report.getSupervisorDegree());
+                    case "headOfDTitle" -> template.setField("headOfDTitle", report.getHeadOfDTitle());
+                    case "headOfDDegree" -> template.setField("headOfDDegree", report.getHeadOfDDegree());
+                    case "supervisorCompanyFN" -> template.setField("supervisorCompanyFN", report.getSupervisorCompanyFN());
+                    case "supervisorCompanyPosition" -> template.setField("supervisorCompanyPosition", report.getSupervisorCompanyPosition());
                     default -> {
                     }
                 }
@@ -83,5 +98,6 @@ public class FileReplacerAndMerger {
         DocumentBuilder.deleteWM(pathToTitleList,"Evaluation Warning: The document was created with Spire.Doc for JAVA.");
         ResultPusher.pushFile(pathToTitleList, report.getGroupName() + ".docx");
         DocumentBuilder.clearDoc(pathToTitleList);
+        System.out.println(report.getSupervisorTitle());
     }
 }

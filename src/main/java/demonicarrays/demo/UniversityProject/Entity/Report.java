@@ -29,12 +29,24 @@ public class Report {
     private String courseNum;
     private String groupName;
     private String practicePlaceAndTime;
+
+    //this shit is not changing at all
     private String position;
+
     private String currentDate;
+    //this shit is not changing in last page of report of every student
     private String headOfDFN;
     private String directionName;
     private String profileName;
     private String fileChooser;
+
+    private String supervisorTitle;
+    private String supervisorDegree;
+    private String supervisorPosition;
+    private String headOfDTitle;
+    private String headOfDDegree;
+    private String supervisorCompanyFN;
+    private String supervisorCompanyPosition;
 
 
 }
