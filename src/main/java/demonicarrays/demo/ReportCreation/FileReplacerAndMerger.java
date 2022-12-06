@@ -4,10 +4,6 @@ package demonicarrays.demo.ReportCreation;
 import com.spire.doc.Document;
 import com.spire.doc.FileFormat;
 import demonicarrays.demo.UniversityProject.Entity.Report;
-import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -53,26 +49,27 @@ public class FileReplacerAndMerger {
         }};
 
         DocumentBuilder.clearDoc(pathToTitleList);
+        assert students != null;
         for (String studentName: students) {
             Template template = new Template(replaceableNames, studentName);
             for (String replaceableName : replaceableNames) {
                 switch (replaceableName) {
-                    case "instituteName" -> template.setField("instituteName", report.getInstituteName());//objUpdateWord.updateDocument(inputPath, outputPath, "${instituteName}", (String) instituteName.getValue());
-                    case "departmentName" -> template.setField("departmentName",report.getDepartmentName());//objUpdateWord.updateDocument(inputPath, outputPath, "${departmentName}", (String) departmentName.getValue());
-                    case "practiceName" -> template.setField("practiceName",report.getPracticeName());//objUpdateWord.updateDocument(inputPath, outputPath, "${practiceName}", (String) practiceName.getValue());
-                    case "orderDate" -> template.setField("orderDate",report.getOrderDate());//objUpdateWord.updateDocument(inputPath, outputPath, "${orderDate}", String.valueOf(orderDate.getValue()));
-                    case "orderName" -> template.setField("orderName", report.getOrderName());//objUpdateWord.updateDocument(inputPath, outputPath, "${orderName}", orderName.getText());
-                    case "sessionDate" -> template.setField("sessionDate",report.getSessionDate());//objUpdateWord.updateDocument(inputPath, outputPath, "${sessionDate}", String.valueOf(sessionDate.getValue()));
-                    case "supervisorFN" -> template.setField("supervisorFN",report.getSupervisorFN());//objUpdateWord.updateDocument(inputPath, outputPath, "${supervisorFN}", supervisorFN.getText());
-                    case "currentYear" -> template.setField("currentYear",report.getCurrentYear());//objUpdateWord.updateDocument(inputPath, outputPath, "${currentYear}", String.valueOf(currentYear));
-                    case "courseNum" -> template.setField("courseNum",report.getCourseNum());//objUpdateWord.updateDocument(inputPath, outputPath, "${courseNum}", (String) courseNum.getValue());
-                    case "groupName" -> template.setField("groupName", report.getGroupName());//objUpdateWord.updateDocument(inputPath, outputPath, "${groupName}", groupName.getText());
-                    case "practicePlaceAndTime" -> template.setField("practicePlaceAndTime",report.getPracticePlaceAndTime());//objUpdateWord.updateDocument(inputPath, outputPath, "${practicePlaceAndTime}", practicePlaceAndTime.getText());
-                    case "position" -> template.setField("position",report.getPosition());//objUpdateWord.updateDocument(inputPath, outputPath, "${position}", position.getText());
-                    case "currentDate" -> template.setField("currentDate",report.getCurrentDate());//objUpdateWord.updateDocument(inputPath, outputPath, "${currentDate}", String.valueOf(currentDate.getValue()));
-                    case "headOfDFN" -> template.setField("headOfDFN",report.getHeadOfDFN()); //objUpdateWord.updateDocument(inputPath, outputPath, "${headOfDFN}", headOfDFN.getText());
-                    case "directionName" -> template.setField("directionName", report.getDirectionName());//objUpdateWord.updateDocument(inputPath, outputPath, "${directionName}", (String) directionName.getValue());
-                    case "profileName" -> template.setField("profileName", report.getProfileName());//objUpdateWord.updateDocument(inputPath, outputPath, "${profileName}", profileName.getText());
+                    case "instituteName" -> template.setField("instituteName", report.getInstituteName());
+                    case "departmentName" -> template.setField("departmentName",report.getDepartmentName());
+                    case "practiceName" -> template.setField("practiceName",report.getPracticeName());
+                    case "orderDate" -> template.setField("orderDate",report.getOrderDate());
+                    case "orderName" -> template.setField("orderName", report.getOrderName());
+                    case "sessionDate" -> template.setField("sessionDate",report.getSessionDate());
+                    case "supervisorFN" -> template.setField("supervisorFN",report.getSupervisorFN());
+                    case "currentYear" -> template.setField("currentYear",report.getCurrentYear());
+                    case "courseNum" -> template.setField("courseNum",report.getCourseNum());
+                    case "groupName" -> template.setField("groupName", report.getGroupName());
+                    case "practicePlaceAndTime" -> template.setField("practicePlaceAndTime",report.getPracticePlaceAndTime());
+                    case "position" -> template.setField("position",report.getPosition());
+                    case "currentDate" -> template.setField("currentDate",report.getCurrentDate());
+                    case "headOfDFN" -> template.setField("headOfDFN",report.getHeadOfDFN());
+                    case "directionName" -> template.setField("directionName", report.getDirectionName());
+                    case "profileName" -> template.setField("profileName", report.getProfileName());
                     case "supervisorPosition" -> template.setField("supervisorPosition", report.getSupervisorPosition());
                     case "supervisorTitle" -> template.setField("supervisorTitle", report.getSupervisorTitle());
                     case "supervisorDegree" -> template.setField("supervisorDegree", report.getSupervisorDegree());

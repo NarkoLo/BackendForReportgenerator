@@ -2,13 +2,9 @@ package demonicarrays.demo.ReportCreation;
 
 import lombok.SneakyThrows;
 import org.apache.poi.xwpf.usermodel.*;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class DocumentBuilder {
@@ -46,14 +42,15 @@ public class DocumentBuilder {
             if (runs != null) {
                 for (XWPFRun r : runs) {
                     String text = r.getText(0);
-                    for (String oldReplacement : template.getReplaceableNames()) {
-                        if (text != null && text.contains(oldReplacement)) {
-                            text = text.replace(oldReplacement, template.getKeysAndValues().get(oldReplacement));
-                            r.setText(text, 0);
+                    if (text != null && text.charAt(0) >= 97 && text.charAt(0) <= 122) {
+                        for (String oldReplacement : template.getReplaceableNames()) {
+                            if (text.contains(oldReplacement)) {
+                                r.setText(template.getKeysAndValues().get(oldReplacement), 0);
+                                break;
+                            }
+
                         }
-
                     }
-
                 }
             }
         }
@@ -65,10 +62,12 @@ public class DocumentBuilder {
                     for (XWPFParagraph p : cell.getParagraphs()) {
                         for (XWPFRun r : p.getRuns()) {
                             String text = r.getText(0);
-                            for (String oldReplacement : template.getReplaceableNames()) {
-                                if (text != null && text.contains(oldReplacement)) {
-                                    text = text.replace(oldReplacement, template.getKeysAndValues().get(oldReplacement));
-                                    r.setText(text, 0);
+                            if (text != null && text.charAt(0) >= 97 && text.charAt(0) <= 122) {
+                                for (String oldReplacement : template.getReplaceableNames()) {
+                                    if (text.contains(oldReplacement)) {
+                                        text = text.replace(oldReplacement, template.getKeysAndValues().get(oldReplacement));
+                                        r.setText(text, 0);
+                                    }
                                 }
                             }
                         }
