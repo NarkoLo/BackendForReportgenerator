@@ -11,11 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Report {
-    Date currentDateInstance = new Date();
-    Calendar cal = Calendar.getInstance();
-
-    int currentYearInstance;
-    int currentMonthInstance = cal.get(Calendar.MONTH);
 
     private int ver;
     private String instituteName;
@@ -23,18 +18,16 @@ public class Report {
     private String practiceName;
     private String orderDate;
     private String orderName;
-    private String currentYear = String.valueOf(currentYearInstance = cal.get(Calendar.YEAR));
-    private String sessionDate = (currentMonthInstance > 6 ? "декабря " + currentYear : "июня " + currentYear);
+    private String currentYear = "";
+    private String sessionDate = "";
     private String supervisorFN;
     private String courseNum;
     private String groupName;
     private String practicePlaceAndTime;
 
-    //this shit is not changing at all
     private String position;
 
     private String currentDate;
-    //this shit is not changing in last page of report of every student
     private String headOfDFN;
     private String directionName;
     private String profileName;
@@ -47,6 +40,7 @@ public class Report {
     private String headOfDDegree;
     private String supervisorCompanyFN;
     private String supervisorCompanyPosition;
+
 
 
 }

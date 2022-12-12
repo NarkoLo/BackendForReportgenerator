@@ -17,7 +17,68 @@ public class FileReplacerAndMerger {
 
     public static void fileReplacerAndMerger(Report report) throws IOException {
 
+        String orderDateYear = report.getOrderDate().substring(0,4);
+        String orderDateMonth = report.getOrderDate().substring(5, 7);
+        String orderDateDay = report.getOrderDate().substring(8, 10);
+        String currentDateYear = report.getCurrentDate().substring(0,4);
+        String currentDateMonth = report.getCurrentDate().substring(5,7);
+        String currentDateDay = report.getCurrentDate().substring(8,10);
+
         List<String> students = ExcelParsing.pushToArrayList(ResultPusher.getCorrectPath(report.getFileChooser()));
+
+        String stringOrderDateMonth = "";
+        String stringCurrentDateMonth = "";
+
+        switch (orderDateMonth){
+            case "09" -> stringOrderDateMonth = "сентября";
+            case "02" -> stringOrderDateMonth = "февраля";
+        }
+
+        switch (currentDateMonth){
+            case "09" -> stringCurrentDateMonth = "сентября";
+            case "02" -> stringCurrentDateMonth = "февраля";
+        }
+
+        if(stringOrderDateMonth.equals("сентября")){
+            report.setSessionDate("декабря " +orderDateYear);
+        }else{
+            report.setSessionDate("мая " + orderDateYear);
+        }
+
+
+        report.setCurrentYear(orderDateYear);
+
+        String convertedOrderDate = "«" + orderDateDay + "» " + stringOrderDateMonth + " " + orderDateYear + " г.";
+        String convertedCurrentDate = "«" + currentDateDay + "» " + stringCurrentDateMonth + " " + currentDateYear + " г.";
+
+        String brandNewSuperVisor;
+        if(report.getSupervisorDegree() != "" && report.getSupervisorTitle() != ""){
+            brandNewSuperVisor = report.getSupervisorFN() + ", " + report.getSupervisorDegree()
+                    + ", " + report.getSupervisorTitle();
+        }else{
+            if(report.getSupervisorDegree() != ""){
+                brandNewSuperVisor = report.getSupervisorFN() + ", " + report.getSupervisorDegree();
+            } else if (report.getSupervisorTitle() != "") {
+                brandNewSuperVisor = report.getSupervisorFN() + ", " + report.getSupervisorTitle();
+            }else{
+                brandNewSuperVisor = report.getSupervisorFN();
+            }
+        }
+
+        String brandNewHeadOfDFN;
+        if(report.getHeadOfDDegree() != "" && report.getHeadOfDTitle() != ""){
+            brandNewHeadOfDFN = report.getHeadOfDFN() + ", " + report.getHeadOfDDegree()
+                    + ", " + report.getHeadOfDTitle();
+        }else{
+            if(report.getHeadOfDDegree() != ""){
+                brandNewHeadOfDFN = report.getHeadOfDFN() + ", " + report.getHeadOfDDegree();
+            } else if (report.getHeadOfDTitle() != "") {
+                brandNewHeadOfDFN = report.getHeadOfDFN() + ", " + report.getHeadOfDTitle();
+            }else{
+                brandNewHeadOfDFN = report.getHeadOfDFN();
+            }
+        }
+
 
         ArrayList<String> replaceableNames = new ArrayList<>(){{
             add("studentFullName");
@@ -38,14 +99,17 @@ public class FileReplacerAndMerger {
             add("headOfDFN");
             add("directionName");
             add("profileName");
-
             add("supervisorPosition");
-            add("supervisorTitle");
-            add("supervisorDegree");
-            add("headOfDTitle");
-            add("headOfDDegree");
-            add("supervisorCompanyFN");
-            add("supervisorCompanyPosition");
+            add("brandNewSuperVisor");
+            add("brandNewHeadOfDFN");
+//            if(report.getSupervisorTitle() != null) add("supervisorTitle");
+//            if(report.getSupervisorDegree() != null) add("supervisorDegree");
+//            if(report.getHeadOfDTitle() != null) add("headOfDTitle");
+//            if(report.getHeadOfDDegree() != null) add("headOfDDegree");
+
+            //add this line of codes if we'll have report for company
+//            add("supervisorCompanyFN");
+//            add("supervisorCompanyPosition");
         }};
 
         DocumentBuilder.clearDoc(pathToTitleList);
@@ -57,7 +121,7 @@ public class FileReplacerAndMerger {
                     case "instituteName" -> template.setField("instituteName", report.getInstituteName());
                     case "departmentName" -> template.setField("departmentName",report.getDepartmentName());
                     case "practiceName" -> template.setField("practiceName",report.getPracticeName());
-                    case "orderDate" -> template.setField("orderDate",report.getOrderDate());
+                    case "orderDate" -> template.setField("orderDate", convertedOrderDate);
                     case "orderName" -> template.setField("orderName", report.getOrderName());
                     case "sessionDate" -> template.setField("sessionDate",report.getSessionDate());
                     case "supervisorFN" -> template.setField("supervisorFN",report.getSupervisorFN());
@@ -66,17 +130,20 @@ public class FileReplacerAndMerger {
                     case "groupName" -> template.setField("groupName", report.getGroupName());
                     case "practicePlaceAndTime" -> template.setField("practicePlaceAndTime",report.getPracticePlaceAndTime());
                     case "position" -> template.setField("position",report.getPosition());
-                    case "currentDate" -> template.setField("currentDate",report.getCurrentDate());
+                    case "currentDate" -> template.setField("currentDate", convertedCurrentDate);
                     case "headOfDFN" -> template.setField("headOfDFN",report.getHeadOfDFN());
                     case "directionName" -> template.setField("directionName", report.getDirectionName());
                     case "profileName" -> template.setField("profileName", report.getProfileName());
                     case "supervisorPosition" -> template.setField("supervisorPosition", report.getSupervisorPosition());
-                    case "supervisorTitle" -> template.setField("supervisorTitle", report.getSupervisorTitle());
-                    case "supervisorDegree" -> template.setField("supervisorDegree", report.getSupervisorDegree());
-                    case "headOfDTitle" -> template.setField("headOfDTitle", report.getHeadOfDTitle());
-                    case "headOfDDegree" -> template.setField("headOfDDegree", report.getHeadOfDDegree());
-                    case "supervisorCompanyFN" -> template.setField("supervisorCompanyFN", report.getSupervisorCompanyFN());
-                    case "supervisorCompanyPosition" -> template.setField("supervisorCompanyPosition", report.getSupervisorCompanyPosition());
+                    case "brandNewSuperVisor" -> template.setField("brandNewSuperVisor", brandNewSuperVisor);
+                    case "brandNewHeadOfDFN" -> template.setField("brandNewHeadOfDFN", brandNewHeadOfDFN);
+//                    case "supervisorTitle" -> template.setField("supervisorTitle", report.getSupervisorTitle());
+//                    case "supervisorDegree" -> template.setField("supervisorDegree", report.getSupervisorDegree());
+//                    case "headOfDTitle" -> template.setField("headOfDTitle", report.getHeadOfDTitle());
+//                    case "headOfDDegree" -> template.setField("headOfDDegree", report.getHeadOfDDegree());
+                    //add this line of codes if we'll have report for company
+//                    case "supervisorCompanyFN" -> template.setField("supervisorCompanyFN", report.getSupervisorCompanyFN());
+//                    case "supervisorCompanyPosition" -> template.setField("supervisorCompanyPosition", report.getSupervisorCompanyPosition());
                     default -> {
                     }
                 }
